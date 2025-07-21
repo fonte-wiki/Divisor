@@ -75,7 +75,7 @@ class JekyllSite:
         Copies the template files (_layouts, _includes, assets) to the generated site.
         """
         template_dir = os.path.dirname(__file__)
-        for dir_name in ["_includes"]:
+        for dir_name in ["_includes", "_layouts"]:
             source_dir = os.path.join(template_dir, dir_name)
             dest_dir = os.path.join(self.path, dir_name)
             if os.path.exists(source_dir):
