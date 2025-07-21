@@ -30,8 +30,11 @@ class Converter:
             content_body = content
 
         # Adapt front matter
+        front_matter["layout"] = "default"
         if "title" not in front_matter:
             front_matter["title"] = self.get_title_from_content(content_body)
+
+        pass
 
         # Rewrite internal links
         content_body = self.rewrite_internal_links(content_body)
