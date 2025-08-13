@@ -99,6 +99,62 @@ def themes():
     click.echo("- time-machine")
 
 @main.command()
+def setup():
+    """
+    Interactively creates a config.yml file.
+    """
+    click.echo("Welcome to the Divisor setup script!")
+    click.echo("This will guide you through creating your config.yml file.")
+
+    config_data = {
+        'site_metadata': {},
+        'source_repository': '',
+        'content_mapping': {}
+    }
+
+    # Site Metadata
+    config_data['site_metadata']['title'] = click.prompt("Enter your website's title", default="My Awesome Website")
+    config_data['site_metadata']['description'] = click.prompt("Enter your website's description", default="Website created with fonte.wiki and Divisor")
+
+    available_themes = ["architect", "cayman", "dinky", "hacker", "leap-day", "merlot", "midnight", "minima", "minimal", "modernist", "slate", "tactile", "time-machine"]
+    theme_prompt = "Choose a theme"
+    theme_menu = "\n".join([f"{i+1}. {theme}" for i, theme in enumerate(available_themes)])
+    click.echo(f"{theme_prompt}:\n{theme_menu}")
+
+    theme_choice_index = click.prompt("Enter the number of your choice", type=click.IntRange(1, len(available_themes)), default=8)
+    config_data['site_metadata']['theme'] = available_themes[theme_choice_index - 1]
+
+    default_repo_url = "git@github.com:your-username/your-repo.git"
+    config_data['site_metadata']['github_repository_url'] = click.prompt("Enter your GitHub repository URL (e.g., git@github.com:user/repo.git)", default=default_repo_url)
+
+    repo_url = config_data['site_metadata']['github_repository_url']
+    if repo_url.endswith('.git'):
+        repo_name = repo_url.split('/')[-1][:-4]
+        user_name = repo_url.split('/')[-2].split(':')[-1]
+        default_pages_url = f"https://{user_name}.github.io/{repo_name}/"
+    else:
+        default_pages_url = "https://your-username.github.io/your-repo/"
+
+    config_data['site_metadata']['github_pages_url'] = click.prompt("Enter your GitHub Pages URL", default=default_pages_url)
+    config_data['site_metadata']['custom_domain'] = click.prompt("Enter your custom domain (or leave as '<none>')", default="<none>")
+
+    # Source Repository
+    config_data['source_repository'] = click.prompt("Enter the source repository URL", default="https://github.com/fonte-wiki/Backup-fonte-wiki")
+
+    # Content Mapping
+    config_data['content_mapping']['home_page_source'] = click.prompt("Enter the path to your home page file", default="home.md")
+    config_data['content_mapping']['subpages_folder'] = click.prompt("Enter the folder for subpages (or '<none>')", default="<none>")
+    config_data['content_mapping']['destination_folder'] = click.prompt("Enter the destination folder for the generated site", default="site_contents")
+    config_data['content_mapping']['media_destination_folder'] = click.prompt("Enter the destination folder for media files", default="assets/media")
+
+    with open("config.yml", "w") as f:
+        import yaml
+        yaml.dump(config_data, f, default_flow_style=False, sort_keys=False)
+
+    click.echo("\nconfig.yml created successfully!")
+
+
+@main.command()
 def clean():
     """
     Removes the source_repo and site_contents directories.
