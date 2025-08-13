@@ -124,18 +124,14 @@ def setup():
     theme_choice_index = click.prompt("Enter the number of your choice", type=click.IntRange(1, len(available_themes)), default=8)
     config_data['site_metadata']['theme'] = available_themes[theme_choice_index - 1]
 
-    default_repo_url = "git@github.com:your-username/your-repo.git"
-    config_data['site_metadata']['github_repository_url'] = click.prompt("Enter your GitHub repository URL (e.g., git@github.com:user/repo.git)", default=default_repo_url)
+    github_user = click.prompt("Enter your GitHub username or organization", default="your-username")
+    repo_name = click.prompt("Enter your repository name", default="your-repo")
 
-    repo_url = config_data['site_metadata']['github_repository_url']
-    if repo_url.endswith('.git'):
-        repo_name = repo_url.split('/')[-1][:-4]
-        user_name = repo_url.split('/')[-2].split(':')[-1]
-        default_pages_url = f"https://{user_name}.github.io/{repo_name}/"
-    else:
-        default_pages_url = "https://your-username.github.io/your-repo/"
+    config_data['site_metadata']['github_repository_url'] = f"git@github.com:{github_user}/{repo_name}.git"
+    config_data['site_metadata']['github_pages_url'] = f"https://{github_user}.github.io/{repo_name}/"
 
-    config_data['site_metadata']['github_pages_url'] = click.prompt("Enter your GitHub Pages URL", default=default_pages_url)
+    click.echo(f"Generated GitHub repository URL: {config_data['site_metadata']['github_repository_url']}")
+    click.echo(f"Generated GitHub Pages URL: {config_data['site_metadata']['github_pages_url']}")
     config_data['site_metadata']['custom_domain'] = click.prompt("Enter your custom domain (or leave as '<none>')", default="<none>")
 
     # Source Repository
