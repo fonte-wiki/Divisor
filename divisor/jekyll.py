@@ -51,6 +51,12 @@ class JekyllSite:
             f.write(f"theme: {gem_name}\n")
             f.write(f"url: {self.config.site_metadata.github_pages_url}\n")
 
+        # Create CNAME file if custom_domain is set
+        if self.config.site_metadata.custom_domain and self.config.site_metadata.custom_domain != "<none>":
+            cname_path = os.path.join(self.path, "CNAME")
+            with open(cname_path, "w") as f:
+                f.write(self.config.site_metadata.custom_domain)
+
         # Copy layout and includes
         self.copy_template_files()
 

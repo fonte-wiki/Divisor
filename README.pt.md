@@ -26,6 +26,8 @@ site_metadata:
 
   github_pages_url: "https://seu-usuario-git.github.io/seu-repositorio/" #edite esta linha
 
+  custom_domain: "<none>" # Adicione seu domínio personalizado aqui, ou deixe como '<none>'
+
 source_repository: "https://github.com/fonte-wiki/Backup-fonte-wiki" #deixe isto para usar o fonte.wiki como o repositório de origem
 
 content_mapping:
@@ -42,6 +44,7 @@ content_mapping:
 *   `theme`: O tema Jekyll a ser usado. O padrão é "minima". Para uma lista de temas disponíveis, execute `python cli.py themes`.
 *   `github_repository_url`: O endereço do seu repositório.
 *   `github_pages_url`: O URL do seu site do GitHub Pages.
+*   `custom_domain`: O domínio personalizado a ser usado para o seu site. Se você não estiver usando um domínio personalizado, deixe como `<none>`. Quando um domínio personalizado é fornecido, um arquivo `CNAME` será gerado automaticamente.
 
 ### `source_repository`
 
@@ -58,6 +61,16 @@ O URL do repositório Git a ser usado como fonte para o conteúdo do seu site.
 
 Existem duas maneiras de usar o Divisor para gerar e implantar seu site:
 
+### Configuração Interativa (Recomendado)
+
+A maneira mais fácil de começar é usar o script de configuração interativa. Ele o guiará pelo processo de criação do seu arquivo `config.yml`.
+
+```bash
+python cli.py setup
+```
+
+Este comando fará uma série de perguntas sobre o seu site e gerará um arquivo `config.yml` com base nas suas respostas.
+
 ### Opção A: Configuração Manual
 
 Esta opção é ideal se você deseja gerar um site estático único a partir do estado atual do seu repositório de origem.
@@ -72,7 +85,10 @@ Esta opção é ideal se você deseja gerar um site estático único a partir do
     pip install -r requirements.txt
     ```
 3.  **Configure o site:**
-    Primeiro, renomeie `config.yml.sample` para `config.yml`. Em seguida, edite o arquivo `config.yml` para personalizar seu site.
+    Você pode criar um arquivo `config.yml` manualmente (renomeando `config.yml.sample`) ou usar o script de configuração interativa:
+    ```bash
+    python cli.py setup
+    ```
 4.  **Gere o site:**
     ```bash
     python cli.py generate
@@ -148,7 +164,10 @@ Esta opção fornece uma maneira totalmente automatizada de manter seu site sinc
         * **Valor:** Cole o PAT que você copiou na etapa anterior.
         * Clique em "Add secret".
 6.  **Configure o `config.yml` do Divisor:**
-    * Renomeie `config.yml.sample` para `config.yml`.
+    * Você pode criar um arquivo `config.yml` manually (renomeando `config.yml.sample`) ou usar o script de configuração interativa:
+      ```bash
+      python cli.py setup
+      ```
     * Edite o arquivo `config.yml` para personalizar seu site.
     * Crucialmente, certifique-se de que `site_metadata.github_pages_url` esteja definido corretamente para o URL do GitHub Pages do seu repositório forkado. Por exemplo, se o seu repositório forkado for `seu-nome-de-usuario/divisor`, github_pages_url deve ser `https://seu-nome-de-usuario.github.io/divisor/`.
     * O baseurl gerado pelo Divisor em `_config.yml` (dentro de `site_contents`) será derivado disso e deve corresponder ao caminho do seu GitHub Pages (por exemplo, `/divisor`).

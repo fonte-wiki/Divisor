@@ -5,6 +5,7 @@ site_metadata:
   theme: "minima"
   github_repository_url: "git@github.com:your-git-username/your-repository.git" #edit this line
   github_pages_url: "https://your-git-username.github.io/your-repository/" #edit this line
+  custom_domain: "<none>" # Add your custom domain here, or leave as '<none>'
 
 source_repository: "https://github.com/fonte-wiki/Backup-fonte-wiki" #leave this to use fonte.wiki as the source repository
 

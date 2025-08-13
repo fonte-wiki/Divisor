@@ -9,6 +9,7 @@ class SiteMetadata:
     github_repository_url: str
     github_pages_url: str
     description: str = "Website created with fonte.wiki and Divisor"
+    custom_domain: Optional[str] = None
 
 @dataclass
 class ContentMapping:
