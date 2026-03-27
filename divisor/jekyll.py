@@ -98,19 +98,22 @@ class JekyllSite:
                 import shutil
                 shutil.copytree(custom_source_dir, dest_dir, dirs_exist_ok=True)
 
-        # Copy extended.css
+        # Copy extended.css if it doesn't already exist
         source_dir = os.path.join(template_dir, "assets")
         dest_dir = os.path.join(self.path, "assets")
         if os.path.exists(source_dir):
             import shutil
             if not os.path.exists(dest_dir):
                 os.makedirs(dest_dir)
-            shutil.copy2(os.path.join(source_dir, "extended.css"), dest_dir)
+            dest_extended_css = os.path.join(dest_dir, "extended.css")
+            if not os.path.exists(dest_extended_css):
+                shutil.copy2(os.path.join(source_dir, "extended.css"), dest_extended_css)
 
         # Conditionally copy main.scss for minima theme
         if self.config.site_metadata.theme == "minima":
             dest_file = os.path.join(self.path, "assets", "main.scss")
-            with open(dest_file, "w") as f:
-                f.write("---\n")
-                f.write("---\n")
-                f.write('@import "minima";\n')
+            if not os.path.exists(dest_file):
+                with open(dest_file, "w") as f:
+                    f.write("---\n")
+                    f.write("---\n")
+                    f.write('@import "minima";\n')
