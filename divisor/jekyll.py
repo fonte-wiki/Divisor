@@ -92,12 +92,6 @@ class JekyllSite:
                         continue
                     shutil.copy2(s, d)
 
-            # Copy custom templates if they exist
-            custom_source_dir = os.path.join("divisor", "assets")
-            if os.path.exists(custom_source_dir):
-                import shutil
-                shutil.copytree(custom_source_dir, dest_dir, dirs_exist_ok=True)
-
         # Copy extended.css
         source_dir = os.path.join(template_dir, "assets")
         dest_dir = os.path.join(self.path, "assets")
@@ -114,3 +108,10 @@ class JekyllSite:
                 f.write("---\n")
                 f.write("---\n")
                 f.write('@import "minima";\n')
+
+        # Copy custom templates if they exist
+        custom_source_dir = os.path.join("divisor", "assets")
+        if os.path.exists(custom_source_dir):
+            import shutil
+            dest_dir = os.path.join(self.path, "assets")
+            shutil.copytree(custom_source_dir, dest_dir, dirs_exist_ok=True)
